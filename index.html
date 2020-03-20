@@ -1,0 +1,68 @@
+<html>
+
+<head>
+
+<style>
+<!--
+
+#mainInput{
+	width : 500px;
+	height: 500px;
+}
+
+-->
+</style>
+
+<script>
+<!--
+function readDropedFile(evt) {
+	evt.stopPropagation();
+	evt.preventDefault();
+	var files = evt.dataTransfer.files;
+	if(files[0].type=="text/plain" || confirm("Content type of the file you droped is " + (files[0].type||"be able to be identified") + ". Do you want to continue?")){
+		var reader = new FileReader();
+		reader.onload = (function(theFile) {
+			return function(e) {
+				mainInput.value = e.target.result;
+				var inputFilename = theFile.name.split(".");
+				var reg = new RegExp("(.*)."+inputFilename[inputFilename.length-1]);
+				outFilenameBase.value = inputFilename.join(".").replace(reg,"$1");
+				outFilenameExtension.value = "."+inputFilename[inputFilename.length-1];
+			};
+		})(files[0]);
+		reader.readAsText(files[0]);
+		/* reader.readAsDataURL(files[0]); */
+	};
+};
+
+function changeNewlineChar() {
+	var str = mainInput.value.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+	if(outCR.checked){
+		str = str.replace(/\n/g, '\r');
+	}
+	else if(outCRLF.checked){
+		str = str.replace(/\n/g, '\r\n');
+	};
+	hiddenA.href = "data:text/plain;base64,"+btoa(str);
+	hiddenA.download = outFilenameBase.value+outFilenameAddtional.value+outFilenameExtension.value;
+	hiddenA.click();
+};
+-->
+</script>
+
+</head>
+
+<body>
+
+<textarea id="mainInput" ondrop="readDropedFile(event)"></textarea>
+<p>
+	<label for="outCR"><input type="radio" name="outform" id="outCR" value="CR" /> CR</label>
+	<label for="outLF"><input type="radio" name="outform" id="outLF" value="LF" checked /> LF</label>
+	<label for="outCRLF"><input type="radio" name="outform" id="outCRLF" value="CRLF" /> CR+LF</label>
+</p>
+<p>Output File Name : <input id="outFilenameBase" /> + <input id="outFilenameAddtional" /> + <input id="outFilenameExtension" value=".txt" /></p>
+<a href="javascript:changeNewlineChar()">Download</a><a id="hiddenA" href="data:text/plain,A" download="a.txt" style="display:none">hidden</a>
+
+</body>
+
+</html>
