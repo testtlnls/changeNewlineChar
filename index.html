@@ -19,7 +19,8 @@ function readDropedFile(evt) {
 	evt.stopPropagation();
 	evt.preventDefault();
 	var files = evt.dataTransfer.files;
-	if(files[0].type=="text/plain" || confirm("Content type of the file you droped is " + (files[0].type||"be able to be identified") + ". Do you want to continue?")){
+	var confirmMsg = "Content type of the file you droped is " + (files[0].type||"be able to be identified") + ". Do you want to continue?";
+	if( files[0].type=="text/plain" || confirm(confirmMsg) ){
 		var reader = new FileReader();
 		reader.onload = (function(theFile) {
 			return function(e) {
